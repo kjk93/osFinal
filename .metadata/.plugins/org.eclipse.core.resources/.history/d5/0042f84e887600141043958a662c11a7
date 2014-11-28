@@ -1,0 +1,27 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Executable;
+
+
+public class Driver {
+
+	interface ExecutableOne{
+		public void execute();
+	}
+	static class Runner{
+		public void run(ExecutableOne e){
+			e.execute();
+		}
+	}
+	
+	public static void main(String[] args) {
+		Clock timer = new Clock(1, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+}

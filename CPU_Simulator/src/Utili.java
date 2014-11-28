@@ -1,18 +1,19 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
 class Utili {
 
-	Scanner fileReaad;
+	static Scanner fileRead;
 	
 	//---User Supplied Param's---//
-	int simulationDuration;									//The amount of time the simulation should run
-	int quantum;											//The quantum used in the Round Robin algo
-	int contextSwitch;										//????
-	int avgProcessLength;									//The average used to calculate the total CPU time of a newly created process 
-	int creationMean;										//The mean value used to calculate the time till next process creation									
-	int i_oServTime;
+	static int simulationDuration = 5;									//The amount of time the simulation should run
+	static int quantum;											//The quantum used in the Round Robin algo
+	static int contextSwitch;										//????
+	static int avgProcessLength;									//The average used to calculate the total CPU time of a newly created process 
+	static int creationMean;										//The mean value used to calculate the time till next process creation									
+	static int i_oServTime;
 	//---------------------------//
 	
 	
@@ -22,9 +23,15 @@ class Utili {
 	 * @param fileName
 	 * @return True if file read was successful, False otherwise
 	 */
-	public boolean init(String fileName) {
+	public static boolean init(String fileName) {
 		File file = new File(fileName);
-		
+		try {
+			fileRead = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 
@@ -33,23 +40,13 @@ class Utili {
  * User Supplied param get/set methods
  * BEGIN
  */
-	public Scanner getFileReaad() {
-		return fileReaad;
-	}
-
-
-	public void setFileReaad(Scanner fileReaad) {
-		this.fileReaad = fileReaad;
-	}
-
-
-	public int getSimulationDuration() {
+	public static int getSimulationDuration() {
 		return simulationDuration;
 	}
 
 
 	public void setSimulationDuration(int simulationDuration) {
-		this.simulationDuration = simulationDuration;
+		Utili.simulationDuration = simulationDuration;
 	}
 
 
@@ -59,7 +56,7 @@ class Utili {
 
 
 	public void setQuantum(int quantum) {
-		this.quantum = quantum;
+		Utili.quantum = quantum;
 	}
 
 
@@ -69,7 +66,7 @@ class Utili {
 
 
 	public void setContextSwitch(int contextSwitch) {
-		this.contextSwitch = contextSwitch;
+		Utili.contextSwitch = contextSwitch;
 	}
 
 
@@ -79,7 +76,7 @@ class Utili {
 
 
 	public void setAvgProcessLength(int avgProcessLength) {
-		this.avgProcessLength = avgProcessLength;
+		Utili.avgProcessLength = avgProcessLength;
 	}
 
 
@@ -89,7 +86,7 @@ class Utili {
 
 
 	public void setCreationMean(int creationMean) {
-		this.creationMean = creationMean;
+		Utili.creationMean = creationMean;
 	}
 
 
@@ -99,7 +96,7 @@ class Utili {
 
 
 	public void setI_oServTime(int i_oServTime) {
-		this.i_oServTime = i_oServTime;
+		Utili.i_oServTime = i_oServTime;
 	}
 	
 	/*

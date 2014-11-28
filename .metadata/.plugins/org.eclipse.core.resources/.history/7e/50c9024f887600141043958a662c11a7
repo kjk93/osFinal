@@ -1,0 +1,29 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
+
+public class Clock extends Timer implements ActionListener{
+	int clocktime;
+	public Clock(int arg0, ActionListener arg1) {
+		super(arg0, arg1);
+		// TODO Auto-generated constructor stub
+		this.addActionListener(arg1);
+		this.clocktime = 0;
+		this.start();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		clocktime++;
+		if(clocktime<Utili.getSimulationDuration()){
+			System.out.println("current time: " +clocktime);
+		}else{
+			//!!!!--Code to kill simmulation--!!!!//
+		}
+	}
+
+	
+}

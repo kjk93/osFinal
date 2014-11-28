@@ -1,0 +1,26 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
+
+
+public class Clock extends Timer{
+	int currentTime;
+	
+	public Clock() {
+		// TODO Auto-generated constructor stub
+		this.scheduleAtFixedRate(new ClockTick(), 0, 1000);
+	}
+	
+	class ClockTick extends TimerTask{
+		
+		@Override
+		public void run() {
+			currentTime++;
+			if(currentTime<Utili.getSimulationDuration()){
+				System.out.println(currentTime);
+			}
+			
+		}
+		
+	}
+}
