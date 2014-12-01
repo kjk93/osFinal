@@ -1,0 +1,8 @@
+//Comment insert here
+simulationDuration = 10
+quantum = 8
+contextSwitch = 10
+avgProcessLength = 20
+creationMean = 5
+IO_Percent = 30
+i_oServTime = 0

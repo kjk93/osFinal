@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -8,12 +9,13 @@ class Utili {
 	static Scanner fileRead;
 	
 	//---User Supplied Param's---//
-	static int simulationDuration = 5;									//The amount of time the simulation should run
-	static int quantum;											//The quantum used in the Round Robin algo
-	static int contextSwitch;										//????
-	static int avgProcessLength;									//The average used to calculate the total CPU time of a newly created process 
-	static int creationMean;										//The mean value used to calculate the time till next process creation									
-	static int i_oServTime;
+	static int simulationDuration=-1;								//The amount of time the simulation should run
+	static int quantum=-1;											//The quantum used in the Round Robin algo
+	static int contextSwitch=-1;									//The time it takes to store and restore a process so it can be used at a later time (MicroSeconds)
+	static int avgProcessLength=-1;									//The average used to calculate the total CPU time of a newly created process 
+	static int creationMean=-1;										//The mean value used to calculate the time till next process creation									
+	static int IO_Percent=-1;										//The percentage of processes that are I/O Bound, the rest will be CPU bound
+	static int i_oServTime=-1;										//The time need for service an I/O fault. Generated randomly based on a user supplied parameter 
 	//---------------------------//
 	
 	
@@ -27,6 +29,17 @@ class Utili {
 		File file = new File(fileName);
 		try {
 			fileRead = new Scanner(file);
+			try{
+				if(scanFile(fileRead)){
+					printUserParams();
+				}else{
+					throw new Exception("Class: Utili Method: ScanFile: scanner had null value or did not meet required user inputs");
+				}
+				
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,5 +115,132 @@ class Utili {
 	/*
 	 * User Supplied param get/set methods
 	 * END
+	 */
+	
+	//Scans through the file and extracts all of the user supplied parameters
+	public static boolean scanFile(Scanner scanner){
+
+		if(scanner!=null){
+			scanner.nextLine();
+			for (int i = 0; scanner.hasNext(); i++) {
+			switch (scanner.next()) {
+			case "simulationDuration":
+				simulationDuration = scanner.nextInt();
+				break;
+			case "quantum":
+				quantum = scanner.nextInt();
+				break;
+			case "contextSwitch":
+				contextSwitch = scanner.nextInt();
+				break;
+			case "avgProcessLength":
+				avgProcessLength = scanner.nextInt();
+				break;
+			case "creationMean":
+				creationMean = scanner.nextInt();
+				break;
+			case "IO_Percent":
+				IO_Percent = scanner.nextInt();
+				break;
+			case "i_oServTime":
+				i_oServTime = scanner.nextInt();
+				break;
+			default:
+				break;
+			}
+			if(scanner.hasNext()){
+			scanner.nextLine();
+			}
+			}
+			//Checks to verify all required user params have been meet. 
+			if(simulationDuration>=0&&quantum>=0&&contextSwitch>=0&&avgProcessLength>=0&&creationMean>=0&&IO_Percent>=0&&i_oServTime>=0){
+			return true;
+			}else{
+				return false;
+			}
+		}
+		else{
+		return false;
+		}
+	}
+	
+	
+	
+	//Prints the user parameters
+	public static void printUserParams(){
+		System.out.println("simulationDuration: " + simulationDuration);
+		System.out.println("quantum: " + quantum);
+		System.out.println("contextSwitch: " + contextSwitch);
+		System.out.println("avgProcessLength: " + avgProcessLength);
+		System.out.println("creationMean: " + creationMean);
+		System.out.println("IO_Percent: " + IO_Percent);
+		System.out.println("i_oServTime: " + i_oServTime);
+		System.out.println("Creation time: " + nextCreationTime());
+		//For Testing can delete 
+		System.out.println("-----Process One----------");
+		Process p = new Process(0);
+		p.printValues();
+		//--------------
+	}
+	
+	
+	/*
+	 * New Process creation parameter calculations
+	 * BEGIN
+	 */
+	
+	/**
+	 * Time when next new process will be created, in microseconds: (exponential
+	 * centered on input parameter)
+	 * 
+	 * @return
+	 */
+	public static int nextCreationTime(){
+		return calXDistribution(creationMean);
+	}
+	
+	/**
+	 * total CPU time of this process, in microseconds: exponential (centered on input parameter)
+	 * @return
+	 */
+	public static int totalCPU_Time(){
+		return calXDistribution(avgProcessLength);
+	}
+	
+	/**
+	 * Whether this process is I/O bound or CPU-bound: pick based on a random number and the given percentage input parameter
+	 * 
+	 * -!Returns true if it is a IO bound process and false if it is a CPU bound process
+	 * @return
+	 */
+	public static boolean processType(){
+		Random rand = new Random();
+		if(rand.nextInt(100)<=IO_Percent){
+			//If the random generated number is less than or equal to the 
+			//Number enter by the user for IO process percentage than the 
+			//Process is an IO bound process.
+			return true;
+		}else{
+			//The process is an CPU bound process
+			return false;
+		}
+		
+	}
+	
+	public static int firstBurstLength(boolean isIO_Bound){
+		Random rand = new Random();
+		if(isIO_Bound){
+			return rand.nextInt(2000)+2000;
+		}else{
+		return rand.nextInt(10000)+10000;
+		}
+	}
+	//Calculates The exponential distributed random number
+	public static int calXDistribution(int mean){
+		return  (int) (-mean * Math.log(Math.random()));
+	}
+	/*
+	 * New Process creation parameter calculations
+	 * BEGIN
 	 */
 }

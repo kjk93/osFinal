@@ -1,0 +1,14 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Executable;
+
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+
+
+public class Driver {
+
+	public static void main(String[] args) {
+		Clock timer = new Clock();
+		Utili.init("UserParams");
+	}
+}
