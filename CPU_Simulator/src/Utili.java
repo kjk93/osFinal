@@ -119,39 +119,23 @@ class Utili {
 	
 	//Scans through the file and extracts all of the user supplied parameters
 	public static boolean scanFile(Scanner scanner){
-
+		
 		if(scanner!=null){
+			System.out.println("File comment: " + scanner.nextLine());
+			simulationDuration = scanner.nextInt();
 			scanner.nextLine();
-			for (int i = 0; scanner.hasNext(); i++) {
-			switch (scanner.next()) {
-			case "simulationDuration":
-				simulationDuration = scanner.nextInt();
-				break;
-			case "quantum":
-				quantum = scanner.nextInt();
-				break;
-			case "contextSwitch":
-				contextSwitch = scanner.nextInt();
-				break;
-			case "avgProcessLength":
-				avgProcessLength = scanner.nextInt();
-				break;
-			case "creationMean":
-				creationMean = scanner.nextInt();
-				break;
-			case "IO_Percent":
-				IO_Percent = scanner.nextInt();
-				break;
-			case "i_oServTime":
-				i_oServTime = scanner.nextInt();
-				break;
-			default:
-				break;
-			}
-			if(scanner.hasNext()){
+			quantum = scanner.nextInt();
 			scanner.nextLine();
-			}
-			}
+			contextSwitch = scanner.nextInt();
+			scanner.nextLine();
+			avgProcessLength = scanner.nextInt();
+			scanner.nextLine();
+			creationMean = scanner.nextInt();
+			scanner.nextLine();
+			IO_Percent = scanner.nextInt();
+			scanner.nextLine();
+			i_oServTime = scanner.nextInt();
+			scanner.nextLine();
 			//Checks to verify all required user params have been meet. 
 			if(simulationDuration>=0&&quantum>=0&&contextSwitch>=0&&avgProcessLength>=0&&creationMean>=0&&IO_Percent>=0&&i_oServTime>=0){
 			return true;
@@ -168,14 +152,14 @@ class Utili {
 	
 	//Prints the user parameters
 	public static void printUserParams(){
-		System.out.println("simulationDuration: " + simulationDuration);
-		System.out.println("quantum: " + quantum);
-		System.out.println("contextSwitch: " + contextSwitch);
-		System.out.println("avgProcessLength: " + avgProcessLength);
-		System.out.println("creationMean: " + creationMean);
-		System.out.println("IO_Percent: " + IO_Percent);
-		System.out.println("i_oServTime: " + i_oServTime);
-		System.out.println("Creation time: " + nextCreationTime());
+		System.out.println("File parameters:");
+		System.out.println("	Total Simulation Time:		    " + simulationDuration + "s");
+		System.out.println("	Quantum: 			    " + quantum + "us");
+		System.out.println("	Context Switch Time: 		    " + contextSwitch + "us");
+		System.out.println("	Average total CPU time per process: " + avgProcessLength + "us");
+		System.out.println("	Average time between new processes: " + creationMean + "us");
+		System.out.println("	Percentage of I/O-bound processes:  " + IO_Percent + "%");
+		System.out.println("	Average I/O service time: 	    " + i_oServTime + "us");
 		//For Testing can delete 
 		System.out.println("-----Process One----------");
 		Process p = new Process(0);
