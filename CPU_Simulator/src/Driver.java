@@ -14,5 +14,6 @@ public class Driver {
 		System.out.println("Input File Name/Path: ");
 		Utili.init(scan.nextLine());
 		Clock mainClock = new Clock();
+		mainClock.terminateSimulation();
 	}
 }

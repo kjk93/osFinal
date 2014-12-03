@@ -1,0 +1,63 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
+
+
+public class Clock extends Timer{
+	int currentTime;
+	
+	long simulationTime;
+	public Clock() {
+		currentTime = 0;
+		simulationTime = 0;
+		//Calls a event to be run once ever second
+		ClockTick tick = new ClockTick();
+		tick.init(this);
+		this.scheduleAtFixedRate(tick, 0, 1000);
+	}
+	
+	public void incrmentSimulationClock(int incrementClockBy){
+		simulationTime = simulationTime + incrementClockBy;
+	}
+	
+	/*Method to terminate the simulation once current time 
+	* is the same as or grater than simulation duration  
+	*/
+	public void terminateSimulation(){
+		this.cancel();
+	}
+	
+	
+	
+	
+	/**
+	 * The class responsiable for starting and ending the simulation
+	 * @author goodwinj14
+	 *
+	 */
+	class ClockTick extends TimerTask{
+		Clock mainClock;
+		SimulationStats stats;
+		public void init(Clock _mainClock){
+			mainClock = _mainClock;
+			stats = new SimulationStats();
+		}
+		//Starts 
+		//Code that will be executed once every second 
+		@Override
+		public void run() {
+			
+			if(currentTime<Utili.getSimulationDuration()){
+				System.out.println(currentTime);
+			}else{
+				mainClock.cancel();
+				stats.printStats();
+				System.out.println(currentTime);
+				
+				//!!--Code To Kill Simulation--!!!!//
+			}
+			currentTime++;
+		}
+		
+	}
+}

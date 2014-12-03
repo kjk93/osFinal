@@ -1,0 +1,85 @@
+/**
+ * Keeps track of all the process statistics 
+ * @author goodwinj14
+ *
+ */
+public class SimulationStats {
+//All Overall Stats
+float TotalCreadtedProcesses;
+float CPUutilization;					//Total time cpu is used
+float switvhTime;
+
+//All IO bound Stats
+float Total_I_O;
+float IO_Completed;
+float avg_IO_Cpu_Time;
+float avg_IO_Ready_Wait;
+float avg_IO_Serve;
+float avg_IO_TurnAround;
+float avg_IO_Interrupts;
+
+//All CPU bound process Stats
+float Total_CPU;
+float CPU_Completed;
+float avg_CPU_Cpu_Time;
+float avg_CPU_Ready_Wait;
+float avg_CPU_Serve;
+float avg_CPU_TurnAround;
+float avg_CPU_Interrupts;
+
+public SimulationStats() {
+	TotalCreadtedProcesses = 0;
+	CPUutilization = 0;
+	
+	Total_I_O = 0;
+	IO_Completed = 0;
+	avg_IO_Cpu_Time = 0;
+	avg_IO_Ready_Wait = 0;
+	avg_IO_Serve = 0;
+	avg_IO_TurnAround = 0;
+	avg_IO_Interrupts = 0;
+	
+	Total_CPU = 0;
+	CPU_Completed = 0; 
+	avg_CPU_Cpu_Time = 0;
+	avg_CPU_Ready_Wait = 0;
+	avg_CPU_Serve = 0;
+	avg_CPU_TurnAround = 0;
+	avg_CPU_Interrupts = 0;
+}
+
+public void printStats(){
+	//Prints Overall Stats
+	System.out.println("");
+	System.out.println("OVERALL");
+	System.out.println("Simulation time: " + Utili.getSimulationDuration() + " seconds");
+	System.out.println("Created: " + TotalCreadtedProcesses + " processes.");
+	System.out.println("Average CPU time:" +((avg_CPU_Cpu_Time+avg_IO_Cpu_Time)/2) + "%");
+	System.out.println("CPU utilization: " + ((CPUutilization + Utili.getSimulationDuration())/2) + "("+ CPUutilization + " seconds)");
+	System.out.println("Total time in context switches: " + switvhTime + "seconds");
+	System.out.println("TOTAL number of proc. completed: " + (CPU_Completed+IO_Completed) + " processes");
+	System.out.println("Ratio of I/O-bound completed: " + "THIS NEEDS TO BE FINISHED");
+	System.out.println("Average ready waiting time: " + ((avg_CPU_Ready_Wait+avg_IO_Ready_Wait)/2) + " seconds");
+	System.out.println("Average turnaround time: " + ((avg_CPU_TurnAround+avg_IO_TurnAround)/2) + " seconds");
+	
+	//Prints out I/0 bound stats
+	System.out.println("");
+	System.out.println("CPU Bound Stats");
+	System.out.println("Number of I/O-BOUND proc. completed: " + IO_Completed + " processes");
+	System.out.println("Average CPU time: " + avg_IO_Cpu_Time + "seconds");
+	System.out.println("Average ready waiting time: " + avg_IO_Ready_Wait + " seconds");
+	System.out.println("Average I/O service time: " + avg_IO_Serve + " seconds");
+	System.out.println("Average turnaround time: " + avg_IO_TurnAround + " seconds");
+	System.out.println("Average I/O interrupts/proc.: " + avg_IO_Interrupts );
+
+	//Prints out CPU bound stats
+	System.out.println("");
+	System.out.println("CPU Bound Stats");
+	System.out.println("Number of CPU-BOUND proc. completed: " + CPU_Completed + " processes");
+	System.out.println("Average CPU time: " + avg_CPU_Cpu_Time + " seconds");
+	System.out.println("Average ready waiting time: " + avg_CPU_Ready_Wait + " seconds");
+	System.out.println("Average CPU service time: " + avg_CPU_Serve + " seconds");
+	System.out.println("Average turnaround time: " + avg_CPU_TurnAround + " seconds");
+	System.out.println("Average I/O interrupts/proc.: " + avg_CPU_Interrupts);
+}
+}
