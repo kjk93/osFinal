@@ -11,6 +11,9 @@
 <fullyQualifiedTypeName name="java.util.Timer"/>
 <fullyQualifiedTypeName name="java.util.TimerTask"/>
 <fullyQualifiedTypeName name="Clock.ClockTick"/>
-<fullyQualifiedTypeName name="Utili"/>
 <fullyQualifiedTypeName name="Clock"/>
+<fullyQualifiedTypeName name="sun.misc.Queue"/>
+<fullyQualifiedTypeName name="com.sun.corba.se.impl.javax.rmi.CORBA.Util"/>
+<fullyQualifiedTypeName name="Utili"/>
+<fullyQualifiedTypeName name="Events"/>
 </qualifiedTypeNameHistroy>

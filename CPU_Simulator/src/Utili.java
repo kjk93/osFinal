@@ -207,12 +207,12 @@ class Utili {
 		
 	}
 	
-	public static int firstBurstLength(boolean isIO_Bound){
+	public static float firstBurstLength(boolean isIO_Bound){
 		Random rand = new Random();
 		if(isIO_Bound){
-			return rand.nextInt(2000)+2000;
+			return ((float)((int)(((float)(rand.nextInt(2000)+2000))/100)))/10000;
 		}else{
-		return rand.nextInt(10000)+10000;
+		return ((float)((int)(((float)(rand.nextInt(10000)+10000))/100)))/10000;
 		}
 	}
 	//Calculates The exponential distributed random number

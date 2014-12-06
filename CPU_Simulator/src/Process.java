@@ -1,5 +1,7 @@
 import java.awt.Event;
 
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+
 
 public class Process {
 	
@@ -7,8 +9,8 @@ public class Process {
 	float nextProcessCreateTime;									//The time at which the next process will be created (microseconds)
 	float CPU_Time;												//The total amount of CPU time required by the process (microseconds)
 	boolean processType;										//Process type (IO bound or CPU bound)
-	int firstBurstTime;											//The length of the process first cpu burst 
-	
+	float firstBurstTime;											//The length of the process first cpu burst 
+	int pid;
 	/**
 	 * Process type is based on the boolean "processType"
 	 * if "process type" has a value of true then it is 
@@ -16,15 +18,15 @@ public class Process {
 	 * @param createTime
 	 */
 	
-	public Process(long createTime) {
+	public Process(long createTime, int processid) {
 		timeStamp = createTime;
+		pid = processid;
 		nextProcessCreateTime = Utili.nextCreationTime();
 		CPU_Time = Utili.totalCPU_Time();
 		processType = Utili.processType();
 		firstBurstTime = Utili.firstBurstLength(processType);
-		Events.newProcessEvent(timeStamp, CPU_Time,nextProcessCreateTime, processType);
 	}
-	
+		
 	//Prints out the process values
 	public void printValues(){
 		System.out.println("timeStamp: " + timeStamp);

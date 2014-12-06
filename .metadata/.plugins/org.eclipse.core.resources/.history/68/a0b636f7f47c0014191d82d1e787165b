@@ -1,0 +1,38 @@
+import java.awt.Event;
+
+
+public class Process {
+	
+	float timeStamp;												//The time at which the process was created (microseconds)
+	float nextProcessCreateTime;									//The time at which the next process will be created (microseconds)
+	float CPU_Time;												//The total amount of CPU time required by the process (microseconds)
+	boolean processType;										//Process type (IO bound or CPU bound)
+	int firstBurstTime;											//The length of the process first cpu burst 
+	int pid;
+	/**
+	 * Process type is based on the boolean "processType"
+	 * if "process type" has a value of true then it is 
+	 * an IO bound process, otherwise it is CPU bound
+	 * @param createTime
+	 */
+	
+	public Process(long createTime, int processid) {
+		timeStamp = createTime;
+		pid = processid;
+		nextProcessCreateTime = Utili.nextCreationTime();
+		CPU_Time = Utili.totalCPU_Time();
+		processType = Utili.processType();
+		firstBurstTime = Utili.firstBurstLength(processType);
+		Events.newProcessEvent(timeStamp, pid,CPU_Time,nextProcessCreateTime, processType);
+		Events.CPU_Ready(processid, processid, cPU_Time, nextProcess, currentBurst, cpuTimeRemaining);
+	}
+	
+	//Prints out the process values
+	public void printValues(){
+		System.out.println("timeStamp: " + timeStamp);
+		System.out.println("nextProcessCreateTime: " + nextProcessCreateTime);
+		System.out.println("CPU_Time: " + CPU_Time);
+		System.out.println("processType: " + processType);
+		System.out.println("firstBurstTime: " + firstBurstTime);
+	}
+}
