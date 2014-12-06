@@ -4,7 +4,7 @@ import java.util.TimerTask;
 
 
 public class Clock extends Timer{
-	long currentTime;
+	static long currentTime;
 	SimulationStats stats;
 	
 	public Clock() {
@@ -24,5 +24,9 @@ public class Clock extends Timer{
 	public void terminateSimulation(){
 		System.out.println("\n Simulation Finished");
 		this.cancel();
+	}
+	
+	public static long getCurrentTime(){
+		return currentTime;
 	}
 }

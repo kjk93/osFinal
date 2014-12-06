@@ -7,12 +7,17 @@ import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 
 
 public class Driver {
-
+	static Controler controler;
 	public static void main(String[] args) {
 		//DEFUALT FILE PATH = "UserParamFolder\\UserParams"
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Input File Name/Path: ");
-		Utili.init(scan.nextLine());
+		if(Utili.init(scan.nextLine())){
+		//Starts the process
+		controler = new Controler();
+		controler.start();
+		//------------------
+		}
 		Clock mainClock = new Clock();
 		mainClock.terminateSimulation();
 	}

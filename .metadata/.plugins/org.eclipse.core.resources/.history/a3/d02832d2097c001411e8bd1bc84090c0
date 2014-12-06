@@ -1,0 +1,14 @@
+import com.sun.glass.ui.Pixels.Format;
+
+
+public class Events {
+	
+	public static void newProcessEvent(long eventTime, int cpuTime){
+		System.out.println("Time:	" + formatTime(eventTime) + " Event 'New Process': pid=0 totalCPU=" + formatTime((long)cpuTime));
+	}
+	
+	public static float formatTime(long time){
+		float temp = (float) time;
+		return temp;
+	}
+}

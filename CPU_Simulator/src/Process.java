@@ -1,9 +1,11 @@
+import java.awt.Event;
+
 
 public class Process {
 	
-	int timeStamp;												//The time at which the process was created (microseconds)
-	int nextProcessCreateTime;									//The time at which the next process will be created (microseconds)
-	int CPU_Time;												//The total amount of CPU time required by the process (microseconds)
+	float timeStamp;												//The time at which the process was created (microseconds)
+	float nextProcessCreateTime;									//The time at which the next process will be created (microseconds)
+	float CPU_Time;												//The total amount of CPU time required by the process (microseconds)
 	boolean processType;										//Process type (IO bound or CPU bound)
 	int firstBurstTime;											//The length of the process first cpu burst 
 	
@@ -14,12 +16,13 @@ public class Process {
 	 * @param createTime
 	 */
 	
-	public Process(int createTime) {
+	public Process(long createTime) {
 		timeStamp = createTime;
 		nextProcessCreateTime = Utili.nextCreationTime();
 		CPU_Time = Utili.totalCPU_Time();
 		processType = Utili.processType();
 		firstBurstTime = Utili.firstBurstLength(processType);
+		Events.newProcessEvent(timeStamp, CPU_Time,nextProcessCreateTime, processType);
 	}
 	
 	//Prints out the process values
