@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;readyQueue&apos; to &apos;ReadyQueue&apos;&#x0D;&#x0A;- Original project: &apos;CPU_Simulator&apos;&#x0D;&#x0A;- Original element: &apos;readyQueue&apos;&#x0D;&#x0A;- Renamed element: &apos;ReadyQueue&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;readyQueue&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;{readyQueue.java[readyQueue" matchStrategy="1" name="ReadyQueue" qualified="false" references="true" similarDeclarations="false" stamp="1417917303165" textual="false" version="1.0"/>
+</session>

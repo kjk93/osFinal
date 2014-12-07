@@ -1,0 +1,9 @@
+import sun.misc.Queue;
+
+
+public class readyQueue extends Queue<Process>{
+
+	public void add(Process process) {
+		this.enqueue(process);
+	}
+}

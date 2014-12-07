@@ -1,0 +1,82 @@
+import com.sun.glass.ui.Pixels.Format;
+
+
+public class Events {
+	
+	//Event Tags
+	static final String newProcess = "NEW_PROCESS";
+	static final String cpuReady = "CPU_READY";
+	static final String ioInterupt = "IO_INTERRUPT";
+	static final String ioComplete = "IO_COMPLETE";
+	static final String processComplet = "PROCESS_COMPLETE";
+	//
+	private Float timeStamp;
+	private Integer pid;
+	private Float cpu_Time;
+	private Float nextProcess;
+	private Boolean IO__Bound;
+	private Float currentBurst;
+	private Float serviceTime;
+	private Float cpu_Time_Remaining;
+	private Float waitReady;
+	private Float inIO;
+	public String eventType;
+
+	public Events(Float timeStamp2, Integer pid2, Float cPU_Time,
+			Float nextProcess2, Boolean iO_Bound, Float currentBurst2,
+			Float serviceTime2, Float cpu_Time_Remaining2, Float waitReady2, Float inIO2, String eventType2) {
+		// TODO Auto-generated constructor stub
+		Float timeStamp = timeStamp2;
+		Integer pid = pid2;
+		Float cpu_Time = cPU_Time;
+		Float nextProcess = nextProcess2;
+		Boolean IO__Bound = iO_Bound;
+		Float currentBurst = currentBurst2;
+		Float serviceTime = serviceTime2;
+		Float cpu_Time_Remaining = cpu_Time_Remaining2;
+		Float waitReady = waitReady2;
+		Float inIO =  inIO2;
+		String eventType = eventType2;
+		System.out.println(eventType);
+		printEvent();
+	}
+
+	
+	public  void printEvent(){
+		switch (eventType) {
+		case newProcess:
+			if(IO__Bound){
+				System.out.println("Time:	" + timeStamp + " Event 'New Process': pid="+pid+" totalCPU=" + cpu_Time + " IO-Bound; Next new at " + nextProcess );
+			}else{
+			System.out.println("Time:	" + timeStamp + " Event 'New Process': pid=0 totalCPU=" + cpu_Time + " CPU-Bound; Next new at " + nextProcess );
+			}
+			break;
+
+		case cpuReady:
+			System.out.println("Time:	" +  timeStamp + " Event 'Ready -> CPU' pid=" +pid+ " currentBurst="+ currentBurst +" totalCPURem="+cpu_Time_Remaining );
+			break;
+			
+		case ioInterupt:
+			System.out.println("Time:	"  +timeStamp+ " Event 'I/O Interrupt': pid="+pid + " svctime="+serviceTime);
+			break;
+			
+		case ioComplete:
+			System.out.println("Time:	"+ timeStamp + " Event 'I/O Completed': pid="+pid);
+			break;
+		case processComplet:
+			if(IO__Bound){
+				System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " IO-Bound " +" waitready="+waitReady + " inI/O="+ inIO );
+			}else{
+			System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " CPU-Bound " +" waitready="+waitReady + " inI/O="+ inIO );
+			}			break;
+		default:
+			break;
+		}
+	}
+	
+
+	public static float formatTime(float timeStamp){
+		float temp = (float) timeStamp;
+		return temp/10000;
+	}
+}

@@ -215,6 +215,15 @@ class Utili {
 		return ((float)((int)(((float)(rand.nextInt(10000)+10000))/100)))/10000;
 		}
 	}
+	
+	public static float BurstLength(boolean isIO_Bound){
+		Random rand = new Random();
+		if(isIO_Bound){
+			return ((float)((int)(((float)(rand.nextInt(2000)+2000))/100)))/10000;
+		}else{
+		return ((float)((int)(((float)(rand.nextInt(10000)+10000))/100)))/10000;
+		}
+	}
 	//Calculates The exponential distributed random number
 	public static float calXDistribution(int mean){
 		Random rand = new Random();
@@ -224,7 +233,7 @@ class Utili {
 		float log = (float) Math.log(random);
 		float lambda = (float) (mean*(-1));
 		int format = (int)((float)((lambda * log)/10000000)*1000);
-		float ret = ((float)(format))/1000;
+		float ret = ((float)(format))/100;
 		return   ret;
 	}
 	/*

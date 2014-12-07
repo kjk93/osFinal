@@ -11,4 +11,7 @@ import sun.misc.Queue;
  */
 public class EventQueue extends Queue<Events>{
 	
+	public void add(Events event){
+		this.enqueue(event);
+	}
 }

@@ -1,0 +1,22 @@
+import sun.misc.Queue;
+
+/**
+ * The Queue to hold all created events.
+ * The Events will be sorted by creation time
+ * by consequence making this a FIFO queue 
+ * "A specific event will have a higher time stamp 
+ * than an event that was added to the queue prior to it and vice versa"
+ * @author goodwinj14
+ *
+ */
+public class EventQueue{
+	Queue<Events> eventQueue;
+	
+	public EventQueue() {
+		// TODO Auto-generated constructor stub
+		eventQueue = new Queue<Events>();
+	}
+	public void add(Events event){
+		eventQueue.enqueue(event);
+	}
+}

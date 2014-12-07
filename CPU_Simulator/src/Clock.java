@@ -4,16 +4,24 @@ import java.util.TimerTask;
 
 
 public class Clock extends Timer{
-	static long currentTime;
+	static float currentTime;
 	SimulationStats stats;
-	
+	static float totalTimeRemaining;
 	public Clock() {
 		currentTime = 0;
 		stats = new SimulationStats();
 		stats.printStats();
+		totalTimeRemaining = Utili.getSimulationDuration();
 		//Calls a event to be run once ever secon
 	}
 	
+	public static void upDateTimeRemaining(float time){
+		totalTimeRemaining = totalTimeRemaining - time;
+	}
+	
+	public static float getTimeRemaining(){
+		return totalTimeRemaining;
+	}
 	public void incrmentSimulationClock(int incrementClockBy){
 		currentTime = currentTime + incrementClockBy;
 	}
@@ -26,7 +34,7 @@ public class Clock extends Timer{
 		this.cancel();
 	}
 	
-	public static long getCurrentTime(){
+	public static float getCurrentTime(){
 		return currentTime;
 	}
 }

@@ -1,0 +1,27 @@
+
+public class Controler {
+
+	/**
+	 * Creates the first process, sends it to the queue and and starts the CPU and timer
+	 * @throws InterruptedException 
+	 */
+	CPU cpu;
+	EventQueue eventQeueu;
+	ReadyQueue readyQueue;
+	public void start() throws InterruptedException{
+		cpu = new CPU();
+		eventQeueu = new EventQueue();
+		readyQueue = new ReadyQueue();
+		Process firstProcess = new Process(Clock.getCurrentTime(),0);
+		readyQueue.add(firstProcess);
+		cpu.start();
+	}
+	
+	public void startCPU(){
+		
+	}
+	
+	public static void createIO_Interrupt(){
+		
+	}
+}

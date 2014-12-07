@@ -1,0 +1,21 @@
+
+public class CPU {
+	
+	public CPU() {
+		
+	}
+	
+	public void start(){
+		Controler.createCPU_READY(0, .007);
+	}
+	
+	public static void processEvent(Events event){
+		if(event.eventType.equals(Events.newProcess)){
+			if(event.getCpu_Time_Remaining()>Utili.quantum){
+				event.setCpu_Time_Remaining(event.getCpu_Time_Remaining()-Utili.quantum);
+			}else{
+				
+			}
+		}
+	}
+}

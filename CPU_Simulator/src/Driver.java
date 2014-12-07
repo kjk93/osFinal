@@ -14,11 +14,17 @@ public class Driver {
 		System.out.println("Input File Name/Path: ");
 		if(Utili.init(scan.nextLine())){
 		//Starts the process
-		controler = new Controler();
-		controler.start();
+			controler = new Controler();
+			try {
+				controler.start();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Clock mainClock = new Clock();
+			mainClock.terminateSimulation();
 		//------------------
 		}
-		Clock mainClock = new Clock();
-		mainClock.terminateSimulation();
+		
 	}
 }
