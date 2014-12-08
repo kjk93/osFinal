@@ -11,9 +11,17 @@
 <fullyQualifiedTypeName name="java.util.Timer"/>
 <fullyQualifiedTypeName name="java.util.TimerTask"/>
 <fullyQualifiedTypeName name="Clock.ClockTick"/>
-<fullyQualifiedTypeName name="Clock"/>
-<fullyQualifiedTypeName name="sun.misc.Queue"/>
 <fullyQualifiedTypeName name="com.sun.corba.se.impl.javax.rmi.CORBA.Util"/>
-<fullyQualifiedTypeName name="Utili"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="CPU"/>
+<fullyQualifiedTypeName name="sun.misc.Queue"/>
+<fullyQualifiedTypeName name="java.lang.Process"/>
+<fullyQualifiedTypeName name="Process"/>
+<fullyQualifiedTypeName name="ReadyQueue"/>
+<fullyQualifiedTypeName name="Controler"/>
+<fullyQualifiedTypeName name="EventQueue"/>
+<fullyQualifiedTypeName name="Clock"/>
 <fullyQualifiedTypeName name="Events"/>
+<fullyQualifiedTypeName name="Utili"/>
 </qualifiedTypeNameHistroy>

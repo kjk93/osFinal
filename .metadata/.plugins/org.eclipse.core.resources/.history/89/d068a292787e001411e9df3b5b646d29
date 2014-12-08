@@ -1,0 +1,27 @@
+
+public class CPU {
+	Process processOnCpu;
+	public CPU() {
+		
+	}
+	
+	public void start(){
+		float burstLength = Utili.BurstLength(true);
+		processOnCpu.setCpuTimeRemaining(burstLength);
+		Controler.createCPU_READY(processOnCpu.getPid(), Utili.BurstLength(true),processOnCpu.getCpuTimeRemaining());
+	}
+	
+	public void putOnCPU(Process process){
+		processOnCpu = process;
+	}
+	
+	public static void processEvent(Events event){
+		if(event.eventType.equals(Events.newProcess)){
+			if(event.getCpu_Time_Remaining()>Utili.quantum){
+				event.setCpu_Time_Remaining(event.getCpu_Time_Remaining()-Utili.quantum);
+			}else{
+				
+			}
+		}
+	}
+}

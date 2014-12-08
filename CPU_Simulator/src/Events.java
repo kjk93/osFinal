@@ -182,11 +182,7 @@ public class Events {
 			}			
 			break;
 		case quantumExpired:
-			if(IO__Bound){
-				System.out.println("Time:	" + timeStamp + " Event 'Quantum Expired': pid="+pid);
-			}else{
-			System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " CPU-Bound " +" waitready="+waitReady + " inI/O="+ inIO );
-			}			
+				System.out.println("Time:	" + timeStamp + " Event 'Quantum Expired': pid="+pid);	
 			break;
 		default:
 			break;

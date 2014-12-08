@@ -12,6 +12,7 @@ public class Process {
 	float firstBurstTime;											//The length of the process first cpu burst 
 	Events processEvent;
 	int pid;
+	float cpuTimeRemaining;
 	/**
 	 * Process type is based on the boolean "processType"
 	 * if "process type" has a value of true then it is 
@@ -24,11 +25,20 @@ public class Process {
 		pid = processid;
 		nextProcessCreateTime = Utili.nextCreationTime();
 		CPU_Time = Utili.totalCPU_Time();
+		cpuTimeRemaining = CPU_Time;
 		processType = Utili.processType();
 		firstBurstTime = Utili.firstBurstLength(processType);
 		processEvent = createEvent();
 	}
 	
+	public float getCpuTimeRemaining() {
+		return cpuTimeRemaining;
+	}
+
+	public void setCpuTimeRemaining(float timeProcessed) {
+		this.cpuTimeRemaining = cpuTimeRemaining - timeProcessed;
+	}
+
 	public Events getProcessEvent(){
 		return processEvent;
 	}
@@ -38,6 +48,58 @@ public class Process {
 		return event;
 	}
 		
+	public float getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(float timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public float getNextProcessCreateTime() {
+		return nextProcessCreateTime;
+	}
+
+	public void setNextProcessCreateTime(float nextProcessCreateTime) {
+		this.nextProcessCreateTime = nextProcessCreateTime;
+	}
+
+	public float getCPU_Time() {
+		return CPU_Time;
+	}
+
+	public void setCPU_Time(float cPU_Time) {
+		CPU_Time = cPU_Time;
+	}
+
+	public boolean isProcessType() {
+		return processType;
+	}
+
+	public void setProcessType(boolean processType) {
+		this.processType = processType;
+	}
+
+	public float getFirstBurstTime() {
+		return firstBurstTime;
+	}
+
+	public void setFirstBurstTime(float firstBurstTime) {
+		this.firstBurstTime = firstBurstTime;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+
+	public void setProcessEvent(Events processEvent) {
+		this.processEvent = processEvent;
+	}
+
 	//Prints out the process values
 	public void printValues(){
 		System.out.println("timeStamp: " + timeStamp);

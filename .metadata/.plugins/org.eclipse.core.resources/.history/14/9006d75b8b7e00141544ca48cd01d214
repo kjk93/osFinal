@@ -1,0 +1,44 @@
+
+public class CPU {
+	Process processOnCpu;
+	float cpuTime=0;
+	public CPU() {
+		
+	}
+	
+	public void putOnCPU(Process process){
+		cpuTime =0;
+		processOnCpu = process;
+		float burstLength = Utili.BurstLength(processOnCpu.isProcessType());
+		cpuTime = cpuTime + burstLength;
+		System.out.println("Context switch " + Utili.contextSwitch);
+		if(burstLength<Utili.quantum&&cpuTime<Utili.quantum){
+			processOnCpu.setCpuTimeRemaining(burstLength);
+			cpuTime = burstLength;
+			Controler.createCPU_READY(processOnCpu.getPid(), burstLength, processOnCpu.getCpuTimeRemaining());
+			Clock.currentTime = Clock.currentTime + cpuTime + Utili.contextSwitch;
+		}else{
+			processOnCpu.setCpuTimeRemaining(Utili.quantum);
+			cpuTime = Utili.quantum;
+			Controler.createCPU_READY(processOnCpu.getPid(), burstLength, processOnCpu.getCpuTimeRemaining());
+			Clock.currentTime = Clock.currentTime + cpuTime + Utili.contextSwitch;
+			Controler.quantumExpired(processOnCpu.getPid());
+			
+		}		
+		//Generate IO Interrupt
+		
+		//float servicetime = .05f;
+		//Controler.createIO_Interrupt(processOnCpu.pid,servicetime);
+		}
+		//Generate Quantum Expired
+	
+	public static void processEvent(Events event){
+		if(event.eventType.equals(Events.newProcess)){
+			if(event.getCpu_Time_Remaining()>Utili.quantum){
+				event.setCpu_Time_Remaining(event.getCpu_Time_Remaining()-Utili.quantum);
+			}else{
+				
+			}
+		}
+	}
+}

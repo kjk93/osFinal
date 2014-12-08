@@ -11,8 +11,8 @@ class Utili {
 	
 	//---User Supplied Param's---//
 	static int simulationDuration=-1;								//The amount of time the simulation should run
-	static int quantum=-1;											//The quantum used in the Round Robin algo
-	static int contextSwitch=-1;									//The time it takes to store and restore a process so it can be used at a later time (MicroSeconds)
+	static float quantum=-1;											//The quantum used in the Round Robin algo
+	static float contextSwitch=-1;									//The time it takes to store and restore a process so it can be used at a later time (MicroSeconds)
 	static int avgProcessLength=-1;									//The average used to calculate the total CPU time of a newly created process 
 	static int creationMean=-1;										//The mean value used to calculate the time till next process creation									
 	static int IO_Percent=-1;										//The percentage of processes that are I/O Bound, the rest will be CPU bound
@@ -64,7 +64,7 @@ class Utili {
 	}
 
 
-	public int getQuantum() {
+	public float getQuantum() {
 		return quantum;
 	}
 
@@ -74,12 +74,12 @@ class Utili {
 	}
 
 
-	public int getContextSwitch() {
+	public float getContextSwitch() {
 		return contextSwitch;
 	}
 
 
-	public void setContextSwitch(int contextSwitch) {
+	public void setContextSwitch(float contextSwitch) {
 		Utili.contextSwitch = contextSwitch;
 	}
 
@@ -125,9 +125,9 @@ class Utili {
 			System.out.println("File comment: " + scanner.nextLine());
 			simulationDuration = scanner.nextInt();
 			scanner.nextLine();
-			quantum = scanner.nextInt();
+			quantum = ((float)scanner.nextInt())/1000000;
 			scanner.nextLine();
-			contextSwitch = scanner.nextInt();
+			contextSwitch = ((float)scanner.nextInt())/1000000;
 			scanner.nextLine();
 			avgProcessLength = scanner.nextInt();
 			scanner.nextLine();
