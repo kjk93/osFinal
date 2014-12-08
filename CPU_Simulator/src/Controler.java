@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class Controler {
 
@@ -8,60 +10,87 @@ public class Controler {
 	static CPU cpu;
 	static EventQueue eventQeueu;
 	static ReadyQueue readyQueue;
+	static int pid;
+	static ArrayList<Float> creatNew = new ArrayList<Float>();
 	public void start() throws InterruptedException{
 		cpu = new CPU();
 		eventQeueu = new EventQueue();
 		readyQueue = new ReadyQueue();
-		Process firstProcess = new Process(Clock.getCurrentTime(),0);
+		pid =0;
+		Process firstProcess = new Process(Clock.getCurrentTime(),pid);
+		creatNew.add(firstProcess.getNextProcessCreateTime());
 		readyQueue.add(firstProcess);
 		eventQeueu.add(firstProcess.getProcessEvent());
-		cpu.putOnCPU(readyQueue.dequeue());
+		sendToCPU();
 	}
 	
-	public static void sendToCPU(Process p){
-			cpu.putOnCPU(p);
-			
+	public static void createNewProcess(){
+		pid++;
+		Process newP = new Process(Clock.getCurrentTime(), pid);
+		creatNew.add(newP.getNextProcessCreateTime());
+		readyQueue.add(newP);
+		eventQeueu.add(newP.getProcessEvent());
+		newP.setAddedToQueue(Clock.currentTime);
+	}
+	public static void sendToCPU(){
+while(Clock.currentTime<Utili.simulationDuration){
+		for (int i = 0; i < creatNew.size(); i++) {
+			float curtime = Clock.currentTime;
+			if(creatNew.get(i)<=curtime){
+				createNewProcess();
+				creatNew.remove(i);
+			}
+		}
+			try {
+				Process p = readyQueue.dequeue();
+				p.setRemovedFromQueue(Clock.currentTime);
+				p.updateReadyWaiting(p.getAddedToQueue(), p.getRemovedFromQueue());
+				cpu.putOnCPU(p);
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+}	
 	}
 	
 	public static void createCPU_READY(int pid2, float currentBurst, float totalTimeRemaining){
 		System.out.println("CPU TIME REMAINING " + totalTimeRemaining);
 		Events cpuReady = new Events(Clock.getCurrentTime(), pid2, null, null, null, currentBurst, null, totalTimeRemaining, null, null, Events.cpuReady);
-		eventQeueu.add(cpuReady);
+		//eventQeueu.add(cpuReady);
+		Process p = cpu.removeFromCPU();
+		p.setAddedToQueue(Clock.currentTime);
+		readyQueue.enqueue(p);
 		
+		//sendToCPU();
 	}
 	
 	public static void createIO_Interrupt(int pid, float serviceTime){
 		Events ioInterrupt = new Events(Clock.getCurrentTime(), pid, null, null, null, null, serviceTime, null, null, null, Events.ioInterupt);
-		eventQeueu.add(ioInterrupt);
+		//eventQeueu.add(ioInterrupt);
+		cpu.removeFromCPU().setNumIOCalled(1);
 	}
 	
 	public static void quantumExpired(int pid){
 		Events quantumExpired = new Events(Clock.getCurrentTime(), pid, null, null, null, null, null, null, null, null, Events.quantumExpired);
-		eventQeueu.add(quantumExpired);
-		readyQueue.enqueue(cpu.removeFromCPU());
-		try {
-			sendToCPU(readyQueue.dequeue());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//eventQeueu.add(quantumExpired);
+		Process p = cpu.removeFromCPU();
+		p.setAddedToQueue(Clock.currentTime);
 	}
 	
-	public static void processComplete(int pid, float totalCpuTime, boolean processType, float waitReady, float inIO){
+	public static void processComplete(int pid, float totalCpuTime, boolean processType){
 		//System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " IO-Bound " +" waitready="+waitReady + " inI/O="+ inIO );
-		Events processComplete = new Events(Clock.getCurrentTime(), pid, totalCpuTime, null, processType, null, null, null, waitReady, inIO, Events.processComplet);
-		System.out.println(Clock.currentTime);
+		Process p = cpu.removeFromCPU();
+		Events processComplete = new Events(Clock.getCurrentTime(), pid, totalCpuTime, null, processType, null, null, null, p.getReadyWaiting(), null, Events.processComplet);
+		if(!readyQueue.isEmpty()){
+			//sendToCPU();
+		}
 	}
 	
 	public static void ioComplete(int pid){
 		Events ioComplete = new Events(Clock.getCurrentTime(), pid, null, null, null, null, null, null, null, null, Events.ioComplete);
-		eventQeueu.add(ioComplete);
-		readyQueue.add(cpu.removeFromCPU());
-		try {
-			sendToCPU(readyQueue.dequeue());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//eventQeueu.add(ioComplete);
+		
+		
 	}
 }

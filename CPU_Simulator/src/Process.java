@@ -12,7 +12,20 @@ public class Process {
 	float firstBurstTime;											//The length of the process first cpu burst 
 	Events processEvent;
 	int pid;
+	int numIOCalled;
 	float cpuTimeRemaining;
+	//
+	float readyWaiting =0;
+	public float getAddedToQueue() {
+		return addedToQueue;
+	}
+
+	public void setAddedToQueue(float addedToQueue) {
+		this.addedToQueue = addedToQueue;
+	}
+
+	float addedToQueue;
+	float removedFromQueue;
 	/**
 	 * Process type is based on the boolean "processType"
 	 * if "process type" has a value of true then it is 
@@ -29,8 +42,17 @@ public class Process {
 		processType = Utili.processType();
 		firstBurstTime = Utili.firstBurstLength(processType);
 		processEvent = createEvent();
+		numIOCalled = 0;
 	}
 	
+	public int getNumIOCalled() {
+		return numIOCalled;
+	}
+
+	public void setNumIOCalled(int addIO) {
+		this.numIOCalled = numIOCalled + addIO;
+	}
+
 	public float getCpuTimeRemaining() {
 		return cpuTimeRemaining;
 	}
@@ -98,6 +120,25 @@ public class Process {
 
 	public void setProcessEvent(Events processEvent) {
 		this.processEvent = processEvent;
+	}
+
+	public void updateReadyWaiting(float addedToQueue, float removedFromQueue){
+		readyWaiting = readyWaiting + (addedToQueue-removedFromQueue);
+	}
+	public float getReadyWaiting() {
+		return readyWaiting;
+	}
+
+	public void setReadyWaiting(float readyWaiting) {
+		this.readyWaiting = readyWaiting;
+	}
+
+	public float getRemovedFromQueue() {
+		return removedFromQueue;
+	}
+
+	public void setRemovedFromQueue(float removedFromQueue) {
+		this.removedFromQueue = removedFromQueue;
 	}
 
 	//Prints out the process values

@@ -9,14 +9,14 @@ public class CPU {
 	
 	public void putOnCPU(Process process){
 		//cpuTime =0;
+if(Clock.currentTime<Utili.simulationDuration){
 		processOnCpu = process;
 		float burstLength = Utili.BurstLength(processOnCpu.isProcessType());
-		
-		if(burstLength<Utili.quantum&&cpuTime<Utili.quantum){
+		if(burstLength<Utili.quantum){
 			float cpuRemain = processOnCpu.getCpuTimeRemaining();
 			if(cpuRemain>burstLength){
 			processOnCpu.setCpuTimeRemaining(burstLength);
-			float servicetime = .05f;
+			float servicetime = Utili.serviceTime();
 			Controler.createIO_Interrupt(processOnCpu.pid,servicetime);
 			Controler.ioComplete(processOnCpu.getPid());
 			Clock.currentTime = Clock.currentTime + cpuTime + Utili.contextSwitch + servicetime;
@@ -24,31 +24,35 @@ public class CPU {
 			Controler.createCPU_READY(processOnCpu.getPid(), burstLength, processOnCpu.getCpuTimeRemaining());
 			}else{
 				Clock.currentTime = Clock.currentTime + processOnCpu.getCpuTimeRemaining();
-				//Add all of the process stats!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				Controler.processComplete(processOnCpu.getPid(), processOnCpu.getCPU_Time(), processOnCpu.processType, .054f/*waitReady*/, .09f /*inIO*/);
+				Controler.processComplete(processOnCpu.getPid(), processOnCpu.getCPU_Time(), processOnCpu.processType);
 			}
 		}else{
 			float cpuRemain = processOnCpu.getCpuTimeRemaining();
 			if(cpuRemain>burstLength){
 			processOnCpu.setCpuTimeRemaining(Utili.quantum);
 			cpuTime = Utili.quantum;
-			Controler.createCPU_READY(processOnCpu.getPid(), burstLength, processOnCpu.getCpuTimeRemaining());
 			Clock.currentTime = Clock.currentTime + cpuTime + Utili.contextSwitch+ Utili.contextSwitch;
 			Controler.quantumExpired(processOnCpu.getPid());
+			Controler.createCPU_READY(processOnCpu.getPid(), burstLength, processOnCpu.getCpuTimeRemaining());
 			}else{
 				Clock.currentTime = Clock.currentTime + processOnCpu.getCpuTimeRemaining()+Utili.contextSwitch;
-				//Add all of the process stats!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				Controler.processComplete(processOnCpu.getPid(), processOnCpu.getCPU_Time(), processOnCpu.processType, .054f/*waitReady*/, .09f /*inIO*/);
+				Controler.processComplete(processOnCpu.getPid(), processOnCpu.getCPU_Time(), processOnCpu.processType);
 			}
 		}		
 		//Generate IO Interrupt
 		
-		//
-		}
+	}else{
+		System.out.println("DONE");//
+	}
+}
 		//Generate Quantum Expired
 	
 	public Process removeFromCPU(){
 		return processOnCpu;
+	}
+	
+	public void updateProcessStates(Process process){
+		//process.updateReadyWaiting(process.getAddedToQueue(), Clock.getCurrentTime());
 	}
 	
 	public static void processEvent(Events event){
