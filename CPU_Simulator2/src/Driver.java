@@ -26,8 +26,10 @@ public class Driver {
 			cpu = new CPU();
 			clock = new Clock();
 			startSimulation();
+			System.out.println("Left Simulation");
 		//------------------
 		}
+		scan.close();
 	}
 	
 	
@@ -53,18 +55,24 @@ public class Driver {
 				Process p = new Process(event.getTimeStamp(), event.getPid(), event.getNextProcess(), event.getCpu_Time(), event.getIO__Bound(), event.getCurrentBurst());
 				creationQueue.add(p.nextProcessCreateTime);
 				readyQueue.enqueue(p);
+				p.setAddedToQueue(Clock.currentTime);
 				event.printEvent();
 				break;
 				
 			case Events.cpuReady:
 				Process p2 = readyQueue.remove();
-				cpu.putOnCpu(p2);
-				p2 = cpu.removeFromCPU();
+				p2.setRemovedFromQueue(Clock.getCurrentTime());
+				p2.updateReadyWaiting(p2.getAddedToQueue(), p2.getRemovedFromQueue());
+				p2.setFirstBurstTime(Utili.firstBurstLength(p2.processType));
+				CPU.putOnCpu(p2);
+				p2 = CPU.removeFromCPU();
 				if(p2!=null){
 				event.setPid(p2.getPid());
 				event.setCurrentBurst(p2.getFirstBurstTime());
 				event.setCpu_Time_Remaining(p2.getCpuTimeRemaining());
 				event.printEvent();
+				p2.setAddedToQueue(Clock.getCurrentTime());
+				readyQueue.enqueue(p2);
 				}
 				break;
 			case Events.ioInterupt:
@@ -79,14 +87,31 @@ public class Driver {
 				break;
 			case Events.ioComplete:
 				event.printEvent();
+				createCPU_ReadyEvent(Clock.getCurrentTime(), event.getPid(), null, null);
 				break;
 			case Events.quantumExpired:
+				event.printEvent();
+				createCPU_ReadyEvent(Clock.getCurrentTime(), event.getPid(), null, null);
+				break;
+			case Events.processComplet:
+				stats.updateAvg_CPU_Ready_Wait(event.getWaitReady());
+				createCPU_ReadyEvent(Clock.getCurrentTime(), event.getPid(), null, null);
+				if(event.getIO__Bound()){
+					stats.updateIO_Completed(1);
+				}else{
+					stats.updateCPU_Completed(1);
+				}
 				event.printEvent();
 				break;
 			default:
 				break;
 			}
-			//Prints Event To Screen
+			
+			//If there are no process to be exicuted simulation wil speed up to next creation time
+			if(readyQueue.isEmpty()){
+				double temp = creationQueue.peek();
+				Clock.currentTime = Clock.getCurrentTime() + (temp-Clock.getCurrentTime());
+			}
 			
 		}
 		
@@ -103,30 +128,48 @@ public class Driver {
 		boolean pType = Utili.processType();
 		Events event = new Events(timeStamp, pid, Utili.getprocessLength(), Utili.nextCreationTime(), pType, Utili.firstBurstLength(pType), null, null, null, null, Events.newProcess);
 		pid++;
+		System.out.println("CALLED_1");
 		eventQueue.enqueue(event);
 	}
 	
 	//Creates New CPU Ready Event
 	public static void createCPU_ReadyEvent(double timeStamp, int pid2, Double currentburst, Double cpuTimeRemaining){
 		Events event = new Events(timeStamp, pid2, null, null, null, currentburst, null, cpuTimeRemaining, null, null, Events.cpuReady);
+		System.out.println("CALLED_2");
 		eventQueue.enqueue(event);
 	}
 	
 	//Creates New IO_Interrupt Event
 	public static void createIO_InterruptEvent(Double timeStamp, int pid2, Double serviceTime){
 		Events event = new Events(timeStamp, pid2, null, null, null, null, serviceTime, null, null, null, Events.ioInterupt);
+		System.out.println("CALLED_3");
 		eventQueue.enqueue(event);
 	}
 	
 	//Creates New IO_Complete Event
 	public static void createIO_CompleteEvent(Double timeStamp, int pid2){
 		Events event = new Events(timeStamp, pid2, null, null, null, null, null, null, null, null, Events.ioComplete);
+		System.out.println("CALLED_4");
 		eventQueue.enqueue(event);
 	}
 	
 	//Creates New IO_Complete Event
 	public static void createQuantumExpiredEvent(Double timeStamp, int pid2){
 		Events event = new Events(timeStamp, pid2, null, null, null, null, null, null, null, null, Events.quantumExpired);
+		System.out.println("CALLED_5");
 		eventQueue.enqueue(event);
+	}
+	
+	//Creates New IO_Complete Event
+	public static void createProcessCompleteEvent(Double timeStamp, int pid2, Double TotalCPUTime, Double waitReady, boolean processType){
+		Events event = new Events(timeStamp, pid2, TotalCPUTime, null, processType, null, null, null, waitReady, null, Events.processComplet);
+		System.out.println("CALLED_6");
+		eventQueue.enqueue(event);
+	}
+	
+	static int newMade =0;
+	public static int newMade(){
+		newMade = newMade+1;
+		return newMade;
 	}
 }

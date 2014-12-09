@@ -11,6 +11,7 @@ public class Process {
 	int numIOCalled;
 	double cpuTimeRemaining;
 	double totalServiceTime;
+	static int processMadeId;
 	public double getTotalServiceTime() {
 		return totalServiceTime;
 	}
@@ -47,6 +48,7 @@ public class Process {
 		firstBurstTime = currentBurst;
 		processType = _processType;
 		numIOCalled = 0;
+		processMadeId = Driver.newMade();
 	}
 	
 	public int getNumIOCalled() {

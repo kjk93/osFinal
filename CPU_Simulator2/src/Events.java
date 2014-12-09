@@ -182,7 +182,7 @@ public class Events {
 			if(IO__Bound){
 				System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " IO-Bound " +" waitready="+waitReady );
 			}else{
-			System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " CPU-Bound " +" waitready="+waitReady + " inI/O="+ inIO );
+			System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " CPU-Bound " +" waitready="+waitReady  );
 			}			
 			break;
 		case quantumExpired:

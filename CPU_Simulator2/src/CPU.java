@@ -2,6 +2,7 @@
 public class CPU {
 	
 	static Process processOnCpu;
+	static int completed =0;
 	public CPU() {
 	
 	}
@@ -9,11 +10,13 @@ public class CPU {
 	public static void putOnCpu(Process p){
 		processOnCpu = p;
 		
-		if(p.getCpuTimeRemaining()<Utili.quantum && p.getCpuTimeRemaining()<p.firstBurstTime){
+		if(p.getCpuTimeRemaining()<=Utili.quantum && p.getCpuTimeRemaining()<=p.firstBurstTime){
 			//Removes process from cpu if it is finish
 			Clock.currentTime = Clock.currentTime +p.getCpuTimeRemaining();
-			p = null;
 			//generate Process Complete
+			Driver.createProcessCompleteEvent(Clock.currentTime, p.getPid(), p.getCPU_Time(), p.getReadyWaiting(), p.processType);
+			completed++;
+			processOnCpu = null;
 		}
 		else if(p.firstBurstTime<Utili.quantum&&p.firstBurstTime<p.cpuTimeRemaining){
 			//adds process time to the clock
@@ -22,17 +25,17 @@ public class CPU {
 			p.setCpuTimeRemaining(p.firstBurstTime);
 			Driver.createIO_InterruptEvent(null, p.getPid(), null);
 			
-		}else if(p.firstBurstTime>Utili.quantum&&p.firstBurstTime<p.cpuTimeRemaining){
+		}else if(p.firstBurstTime>=Utili.quantum&&p.cpuTimeRemaining>Utili.quantum){
 			//generate quantume
 			//adds process time to the clock
 			Clock.currentTime = Clock.currentTime +Utili.quantum+Utili.contextSwitch;
 			//subtracts one quantum amount of time from process
 			p.setCpuTimeRemaining(Utili.quantum);
-			
 			//Generates Quantum Expired Interrupt
 			Driver.createQuantumExpiredEvent(Clock.getCurrentTime(), p.getPid());
 		}else{
 			//This is an erroer case it should never get called
+			System.out.println("DEBUG INFO: Burst " + p.firstBurstTime + " Time Remaining " + p.getCpuTimeRemaining() );
 			for (int i = 0; i < 100; i++) { System.out.println("Class CPU, Line 28 ERROR THIS CASE SHOULD  NEVER BE CALLED");}
 		}
 		
