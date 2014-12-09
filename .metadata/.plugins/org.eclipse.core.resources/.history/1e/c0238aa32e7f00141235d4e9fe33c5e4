@@ -1,0 +1,22 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.Scanner;
+
+public class Driver {
+
+	public static void main(String[] args) {
+		//DEFUALT FILE PATH = "UserParamFolder\\UserParams"
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Input File Name/Path: ");
+		if(Utili.init(scan.nextLine())){
+		//Starts the process
+			System.out.println(Utili.nextCreationTime();
+			System.out.println(Utili.getprocessLength());
+			System.out.println(Utili.getioServiceTime());
+			
+		//------------------
+		}
+		
+	}
+}

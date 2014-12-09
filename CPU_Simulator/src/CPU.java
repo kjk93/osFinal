@@ -9,9 +9,11 @@ public class CPU {
 	
 	public void putOnCPU(Process process){
 		//cpuTime =0;
-if(Clock.currentTime<Utili.simulationDuration){
+		
 		processOnCpu = process;
 		float burstLength = Utili.BurstLength(processOnCpu.isProcessType());
+if(Clock.currentTime+burstLength<Utili.simulationDuration){
+		
 		if(burstLength<Utili.quantum){
 			float cpuRemain = processOnCpu.getCpuTimeRemaining();
 			if(cpuRemain>burstLength){
@@ -37,6 +39,7 @@ if(Clock.currentTime<Utili.simulationDuration){
 			}else{
 				Clock.currentTime = Clock.currentTime + processOnCpu.getCpuTimeRemaining()+Utili.contextSwitch;
 				Controler.processComplete(processOnCpu.getPid(), processOnCpu.getCPU_Time(), processOnCpu.processType);
+				processOnCpu = null;
 			}
 		}		
 		//Generate IO Interrupt

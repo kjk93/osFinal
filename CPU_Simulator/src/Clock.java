@@ -4,13 +4,10 @@ import java.util.TimerTask;
 
 
 public class Clock extends Timer{
-	static float currentTime;
-	SimulationStats stats;
-	static float totalTimeRemaining;
+	static float currentTime=0;
+	static float totalTimeRemaining=0;
 	public Clock() {
 		currentTime = 0;
-		stats = new SimulationStats();
-		stats.printStats();
 		totalTimeRemaining = Utili.getSimulationDuration();
 		//Calls a event to be run once ever secon
 	}

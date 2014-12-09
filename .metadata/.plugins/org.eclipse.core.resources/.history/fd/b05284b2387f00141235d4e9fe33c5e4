@@ -1,0 +1,66 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Scanner;
+
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+
+public class Driver {
+
+	static CreateNextProcess creationQueue;
+	static EventQueue eventQueue;
+	static ReadyQueue readyQueue;
+	public static void main(String[] args) {
+		//DEFUALT FILE PATH = "UserParamFolder\\UserParams"
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Input File Name/Path: ");
+		if(Utili.init(scan.nextLine())){
+		//Starts the process
+			creationQueue = new CreateNextProcess();
+			creationQueue.add(0.0);
+			eventQueue = new EventQueue();
+			readyQueue = new ReadyQueue();
+			Clock c = new Clock();
+			startSimulation();
+		//------------------
+		}
+	}
+	
+	
+	
+	
+	static int pid=0;
+	public static void startSimulation(){
+		while(Clock.getCurrentTime()<Utili.simulationDuration){
+			//checks to see if any process need to be created
+			if(creationQueue.peek()>=Clock.currentTime){
+				createNewProcessEvent(creationQueue.remove());
+			}
+			
+			//removes the next event from the event queue and process it
+			Events event = eventQueue.remove();;
+			
+			switch (event.eventType) {
+			case Events.newProcess:
+				
+				Process p = new Process(event.getTimeStamp(), pid, event.getNextProcess(), event.getCpu_Time(), event.getIO__Bound());
+				creationQueue.add(p.nextProcessCreateTime);
+				pid++;
+				readyQueue.enqueue(p);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+	
+	
+	
+	//Creates all the event objects
+	public static void createNewProcessEvent(double timeStamp){
+		boolean pType = Utili.processType();
+		Events event = new Events(timeStamp, pid, Utili.getprocessLength(), Utili.nextCreationTime(), pType, Utili.firstBurstLength(pType), null, null, null, null, Events.newProcess);
+		eventQueue.enqueue(event);
+	}
+	
+}

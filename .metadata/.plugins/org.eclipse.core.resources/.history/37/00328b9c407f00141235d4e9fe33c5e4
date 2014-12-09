@@ -1,0 +1,18 @@
+
+public class CPU {
+	
+	static Process processOnCpu;
+	public CPU() {
+	
+	}
+	
+	public static void putOnCpu(Process p){
+		processOnCpu = p;
+		if(p.firstBurstTime<Utili.quantum&&p.firstBurstTime>p.cpuTimeRemaining){
+			//geterat io inter
+		}else{
+			//generate quantume
+		}
+		
+	}
+}

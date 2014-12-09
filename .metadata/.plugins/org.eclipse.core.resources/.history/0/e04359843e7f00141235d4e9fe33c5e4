@@ -1,0 +1,12 @@
+
+public class CPU {
+	
+	static Process processOnCpu;
+	public CPU() {
+	
+	}
+	
+	public static void putOnCpu(Process p){
+		processOnCpu = p;
+	}
+}

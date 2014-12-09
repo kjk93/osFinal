@@ -1,0 +1,197 @@
+import com.sun.glass.ui.Pixels.Format;
+
+
+public class Events {
+	
+	//Event Tags
+	static final String newProcess = "NEW_PROCESS";
+	static final String cpuReady = "CPU_READY";
+	static final String ioInterupt = "IO_INTERRUPT";
+	static final String ioComplete = "IO_COMPLETE";
+	static final String processComplet = "PROCESS_COMPLETE";
+	static final String quantumExpired = "QUANTUM_EXPIRED";
+	//
+	private Float timeStamp;
+	private Integer pid;
+	private Float cpu_Time;
+	private Float nextProcess;
+	private Boolean IO__Bound;
+	private Float currentBurst;
+	public Float getTimeStamp() {
+		return timeStamp;
+	}
+
+
+	public void setTimeStamp(Float timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+
+	public Integer getPid() {
+		return pid;
+	}
+
+
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
+
+
+	public Float getCpu_Time() {
+		return cpu_Time;
+	}
+
+
+	public void setCpu_Time(Float cpu_Time) {
+		this.cpu_Time = cpu_Time;
+	}
+
+
+	public Float getNextProcess() {
+		return nextProcess;
+	}
+
+
+	public void setNextProcess(Float nextProcess) {
+		this.nextProcess = nextProcess;
+	}
+
+
+	public Boolean getIO__Bound() {
+		return IO__Bound;
+	}
+
+
+	public void setIO__Bound(Boolean iO__Bound) {
+		IO__Bound = iO__Bound;
+	}
+
+
+	public Float getCurrentBurst() {
+		return currentBurst;
+	}
+
+
+	public void setCurrentBurst(Float currentBurst) {
+		this.currentBurst = currentBurst;
+	}
+
+
+	public Float getServiceTime() {
+		return serviceTime;
+	}
+
+
+	public void setServiceTime(Float serviceTime) {
+		this.serviceTime = serviceTime;
+	}
+
+
+	public Float getCpu_Time_Remaining() {
+		return cpu_Time_Remaining;
+	}
+
+
+	public void setCpu_Time_Remaining(Float burstTime) {
+		this.cpu_Time_Remaining = cpu_Time_Remaining-burstTime;
+	}
+
+
+	public Float getWaitReady() {
+		return waitReady;
+	}
+
+
+	public void setWaitReady(Float waitReady) {
+		this.waitReady = waitReady;
+	}
+
+
+	public Float getInIO() {
+		return inIO;
+	}
+
+
+	public void setInIO(Float inIO) {
+		this.inIO = inIO;
+	}
+
+
+	public String getEventType() {
+		return eventType;
+	}
+
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+
+	private Float serviceTime;
+	private Float cpu_Time_Remaining;
+	private Float waitReady;
+	private Float inIO;
+	public String eventType;
+
+	public Events(Float timeStamp2, Integer pid2, Float cPU_Time,
+			Float nextProcess2, Boolean iO_Bound, Float currentBurst2,
+			Float serviceTime2, Float cpu_Time_Remaining2, Float waitReady2, Float inIO2, String eventType2) {
+		// TODO Auto-generated constructor stub
+		timeStamp = timeStamp2;
+		pid = pid2;
+		cpu_Time = cPU_Time;
+		nextProcess = nextProcess2;
+		IO__Bound = iO_Bound;
+	    currentBurst = currentBurst2;
+		serviceTime = serviceTime2;
+		cpu_Time_Remaining = cpu_Time_Remaining2;
+		waitReady = waitReady2;
+		inIO =  inIO2;
+		eventType = eventType2;
+
+		printEvent();
+	}
+
+	
+	public  void printEvent(){
+		switch (eventType) {
+		case newProcess:
+			if(IO__Bound){
+				System.out.println("Time:	" + timeStamp + " Event 'New Process': pid="+pid+" totalCPU=" + cpu_Time + " IO-Bound; Next new at " + nextProcess );
+			}else{
+			System.out.println("Time:	" + timeStamp + " Event 'New Process': pid=0 totalCPU=" + cpu_Time + " CPU-Bound; Next new at " + nextProcess );
+			}
+			break;
+
+		case cpuReady:
+			System.out.println("Time:	" +  timeStamp + " Event 'Ready -> CPU' pid=" +pid+ " currentBurst="+ currentBurst + " cpuTimeRemaining: " + cpu_Time_Remaining);
+			break;
+			
+		case ioInterupt:
+			System.out.println("Time:	"  +timeStamp+ " Event 'I/O Interrupt': pid="+pid + " svctime="+serviceTime);
+			break;
+			
+		case ioComplete:
+			System.out.println("Time:	"+ timeStamp + " Event 'I/O Completed': pid="+pid);
+			break;
+		case processComplet:
+			if(IO__Bound){
+				System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " IO-Bound " +" waitready="+waitReady );
+			}else{
+			System.out.println("Time:	" + timeStamp + " Event 'Process Finished': pid="+pid+" totalCPU=" + cpu_Time + " CPU-Bound " +" waitready="+waitReady + " inI/O="+ inIO );
+			}			
+			break;
+		case quantumExpired:
+				System.out.println("Time:	" + timeStamp + " Event 'Quantum Expired': pid="+pid);	
+			break;
+		default:
+			break;
+		}
+	}
+	
+
+	public static float formatTime(float timeStamp){
+		float temp = (float) timeStamp;
+		return temp/10000;
+	}
+}

@@ -1,0 +1,13 @@
+import sun.misc.Queue;
+
+public class EventQueue extends  Queue<Events>{
+
+	public void remove(){
+		try {
+			this.dequeue();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

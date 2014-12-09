@@ -1,0 +1,5 @@
+import sun.misc.Queue;
+
+public class EventQueue extends  Queue<Events>{
+
+}

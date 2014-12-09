@@ -1,0 +1,142 @@
+import java.awt.Event;
+
+public class Process {
+	
+	double timeStamp;												//The time at which the process was created (microseconds)
+	double nextProcessCreateTime;									//The time at which the next process will be created (microseconds)
+	double CPU_Time;												//The total amount of CPU time required by the process (microseconds)
+	boolean processType;										//Process type (IO bound or CPU bound)
+	double firstBurstTime;											//The length of the process first cpu burst 
+	int pid;
+	int numIOCalled;
+	double cpuTimeRemaining;
+	double totalServiceTime;
+	public double getTotalServiceTime() {
+		return totalServiceTime;
+	}
+
+	public void setTotalServiceTime(double newServiceTime) {
+		this.totalServiceTime = totalServiceTime + newServiceTime;
+	}
+
+	//
+	double readyWaiting =0;
+	public double getAddedToQueue() {
+		return addedToQueue;
+	}
+
+	public void setAddedToQueue(double addedToQueue) {
+		this.addedToQueue = addedToQueue;
+	}
+
+	double addedToQueue;
+	double removedFromQueue;
+	/**
+	 * Process type is based on the boolean "processType"
+	 * if "process type" has a value of true then it is 
+	 * an IO bound process, otherwise it is CPU bound
+	 * @param f
+	 */
+	
+	public Process(double _timeStamp, int processid, double _nextProcessCreateTime, double processLength, boolean _processType) {
+		timeStamp = _timeStamp;
+		pid = processid;
+		nextProcessCreateTime = _nextProcessCreateTime;
+		CPU_Time = processLength;
+		cpuTimeRemaining = CPU_Time;
+		processType = _processType;
+		numIOCalled = 0;
+	}
+	
+	public int getNumIOCalled() {
+		return numIOCalled;
+	}
+
+	public void setNumIOCalled(int addIO) {
+		this.numIOCalled = numIOCalled + addIO;
+	}
+
+	public double getCpuTimeRemaining() {
+		return cpuTimeRemaining;
+	}
+
+	public void setCpuTimeRemaining(double timeProcessed) {
+		this.cpuTimeRemaining = cpuTimeRemaining - timeProcessed;
+	}
+
+	public double getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(double timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public double getNextProcessCreateTime() {
+		return nextProcessCreateTime;
+	}
+
+	public void setNextProcessCreateTime(double nextProcessCreateTime) {
+		this.nextProcessCreateTime = nextProcessCreateTime;
+	}
+
+	public double getCPU_Time() {
+		return CPU_Time;
+	}
+
+	public void setCPU_Time(double cPU_Time) {
+		CPU_Time = cPU_Time;
+	}
+
+	public boolean isProcessType() {
+		return processType;
+	}
+
+	public void setProcessType(boolean processType) {
+		this.processType = processType;
+	}
+
+	public double getFirstBurstTime() {
+		return firstBurstTime;
+	}
+
+	public void setFirstBurstTime(double firstBurstTime) {
+		this.firstBurstTime = firstBurstTime;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+
+	public void updateReadyWaiting(double addedToQueue, double removedFromQueue){
+		readyWaiting = readyWaiting + (removedFromQueue-addedToQueue);
+	}
+	public double getReadyWaiting() {
+		return readyWaiting;
+	}
+
+	public void setReadyWaiting(double readyWaiting) {
+		this.readyWaiting = readyWaiting;
+	}
+
+	public double getRemovedFromQueue() {
+		return removedFromQueue;
+	}
+
+	public void setRemovedFromQueue(double removedFromQueue) {
+		this.removedFromQueue = removedFromQueue;
+	}
+
+	//Prints out the process values
+	public void printValues(){
+		System.out.println("timeStamp: " + timeStamp);
+		System.out.println("nextProcessCreateTime: " + nextProcessCreateTime);
+		System.out.println("CPU_Time: " + CPU_Time);
+		System.out.println("processType: " + processType);
+		System.out.println("firstBurstTime: " + firstBurstTime);
+	}
+}

@@ -177,7 +177,7 @@ class Utili {
 	 * @return
 	 */
 	public static float nextCreationTime(){
-		return calXDistribution(creationMean);
+		return (calXDistribution(creationMean/1000000));
 	}
 	
 	/**
@@ -220,9 +220,9 @@ class Utili {
 	public static float firstBurstLength(boolean isIO_Bound){
 		Random rand = new Random();
 		if(isIO_Bound){
-			return ((float)((int)(((float)(rand.nextInt(2000)+2000))/100)))/10000;
+			return (rand.nextInt(2000)+2000);
 		}else{
-		return ((float)((int)(((float)(rand.nextInt(10000)+10000))/100)))/10000;
+		return (rand.nextInt(10000)+10000);
 		}
 	}
 	
@@ -237,16 +237,17 @@ class Utili {
 		}
 	}
 	//Calculates The exponential distributed random number
-	public static float calXDistribution(int mean){
-		Random rand = new Random();
+	public static float calXDistribution(double d){
 
-		//System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!rand  " + (rand.nextInt(2)));
-		float random = rand.nextFloat(); 
-		float log = (float) Math.log(random);
-		float lambda = (float) (mean*(-1));
-		int format = (int)((float)((lambda * log)/10000000)*1000);
-		float ret = ((float)(format))/100;
-		return   ret;
+	    // inside the LOG you call a random number generator returning a FLOAT between 0 and 1
+	    // that's natural logarithm being called btw
+		Random rand = new Random();
+	   double nice = -d * Math.log( (float)rand.nextFloat());
+	   nice *= 10000;
+	    nice = (int) nice;
+	    nice /= 10000;
+	    return (float) ( nice );
+
 	}
 	/*
 	 * New Process creation parameter calculations
